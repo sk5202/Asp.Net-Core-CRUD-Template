@@ -1,0 +1,7 @@
+Asp.Net Core initial version release.
+
+This extention is really helpful for beginner who want to start his/her carrier with asp.net core.
+
+This Template is very easy to use please read read me file how to run this template in your VS.
+
+Thank you

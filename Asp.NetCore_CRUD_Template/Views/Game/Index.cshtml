@@ -1,0 +1,92 @@
+﻿@model IEnumerable<Asp.NetCore_CRUD_Template.Models.GameModel>
+
+
+<div class="top-buffer"></div>
+<div class="panel panel-primary">
+    
+    <div class="panel-body">
+
+
+        @if (Model.Count() > 0)
+        {
+            <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+
+                            <td>
+                                <a id="editCustomerModal" onclick='EditOrdeleteGame("edit","@item.Id","@item.Name")' data-toggle="modal" asp-action="AddEditGame" asp-route-id="@item.Id" data-target="#modal-action-customer"
+                                   class="btn btn-info">
+                                    <i class="glyphicon glyphicon-pencil"></i>  Edit Game
+                                </a>
+                                <a id="deleteCustomerModal" onclick='EditOrdeleteGame("delete","@item.Id","@item.Name")' style="cursor:pointer;" class="btn btn-danger">
+                                    <i class="glyphicon glyphicon-trash"></i>  Delete Game
+                                </a>
+                            </td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        }
+        <div class="top-buffer"></div>
+        <div class="btn-group" style="text-align:center;display: inherit;">
+            <a id="createEditCustomerModal" data-toggle="modal" onclick='EditOrdeleteGame("add","0","")' data-target="#modal-action-customer" asp-action="AddEditGame" class="btn btn-primary">
+                <i class="glyphicon glyphicon-plus"></i>  Add Game
+            </a>
+        </div>
+
+    </div>
+</div>
+<div aria-hidden="true" aria-labelledby="modal-action-customer-label" role="dialog" tabindex="-1" id="modal-action-customer" class="modal fade">
+    <div class="modal-dialog @ModalSize.Medium">
+        <div class="modal-content">
+            @await Component.InvokeAsync("Game", new { id = 0 })
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/js/customer-index.js" asp-append-version="true"></script>
+}
+
+<script>
+    function EditOrdeleteGame(a, b, c) {
+        if (a == "add")
+        {
+            $("#Name").val("");
+            $("#Id").val(0);
+            $("#header").text("Add Game");
+        }
+        else if (a == "delete") {
+            if (confirm("Are you sure you want to delete this game?")) {
+                $.ajax({
+                    type: "POST",
+                    url: "Game/DeleteGame",
+                    data: {
+                        id: b
+                    },
+                    success: function (result) {
+                        window.location.href = "/";
+                    }
+                });
+            }
+        }
+        else {
+            $("#header").text("Edit Game");
+            $("#Name").val(c);
+            $("#Id").val(b);
+        }
+    }
+
+</script>

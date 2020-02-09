@@ -1,0 +1,20 @@
+﻿@model GameModel
+
+
+<form asp-action="AddEditGame" role="form">
+    @await Html.PartialAsync("_ModalHeader", new ModalHeader { Heading = String.Format("{0} Game", @Model.Id == 0 ? "Add" : "Edit") })
+   
+    <div class="modal-body form-horizontal">
+        <div class="form-group">
+            <label asp-for="Name" class="col-lg-3 col-sm-3 control-label"></label>           
+            <div class="col-lg-6">
+                <input asp-for="Name" class="form-control" />                
+            </div>
+        </div>
+        <input type="hidden" asp-for="Id" />
+             
+    </div>
+  @await Html.PartialAsync("_ModalFooter", new ModalFooter { })
+</form>
+
+
